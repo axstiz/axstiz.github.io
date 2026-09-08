@@ -58,12 +58,7 @@
     document.querySelector("#hero-desc").textContent = p.description || "";
 
     const main = document.querySelector("#avatar-main");
-    const side = document.querySelector("#avatar-side");
     avatar(main, p.avatar, p.nickname);
-    avatar(side, p.avatar, p.nickname);
-
-    document.querySelector("#panel-name").textContent = p.name || p.nickname;
-    document.querySelector("#panel-nick").textContent = `@${p.nickname}`;
   }
 
   function renderStack(stack) {
