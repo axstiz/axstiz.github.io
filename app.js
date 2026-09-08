@@ -133,10 +133,19 @@
 
       const info = document.createElement("div");
       info.appendChild(h("div", "edu-institution", e.institution));
-      info.appendChild(h("div", "edu-degree", e.degree));
+      const degree = e.degree || e.program || "";
+      const institute = e.institute ? ` · ${e.institute}` : "";
+      info.appendChild(h("div", "edu-degree", degree + institute));
+      if (e.disciplines && e.disciplines.length) {
+        info.appendChild(h("div", "edu-degree", e.disciplines.join(" · ")));
+      }
+
+      const periodParts = [e.period];
+      if (e.periodNote) periodParts.push(`(${e.periodNote})`);
+      if (e.status) periodParts.push(`(${e.status})`);
 
       item.appendChild(info);
-      item.appendChild(h("span", "edu-period", e.period));
+      item.appendChild(h("span", "edu-period", periodParts.join(" ")));
       root.appendChild(item);
     });
   }

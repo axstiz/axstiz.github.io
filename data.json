@@ -1,11 +1,13 @@
 {
   "profile": {
-    "nickname": "axstiz",
+    "fullName": "Вахрушев Матвей Евгеньевич",
     "name": "Матвей Вахрушев",
+    "nickname": "axstiz",
     "title": "AI-инженер · студент УрФУ",
     "location": "Екатеринбург",
     "status": "open to offers",
     "description": "Проектирую AI-пайплайны с LLM, RAG и агентными архитектурами. Топ-трек «Алгоритмы ИИ» УрФУ.",
+    "phone": "+7 (922) 667-40-00",
     "avatar": ""
   },
   "socials": [
@@ -41,19 +43,42 @@
     }
   ],
   "stack": [
-    { "category": "Языки", "items": ["Python (asyncio)", "FastAPI", "Pydantic", "Pandas"] },
-    { "category": "AI / LLM", "items": ["LangGraph", "LangChain", "RAG", "ChromaDB", "Ollama", "Prompt Engineering"] },
-    { "category": "Инфраструктура", "items": ["PostgreSQL", "Kafka", "Docker", "Git", "CI/CD (GitHub Actions)"] }
+    {
+      "category": "Языки программирования",
+      "items": ["Python (asyncio)", "Pandas", "OOP", "Scikit-learn", "FastAPI", "Pydantic"]
+    },
+    {
+      "category": "AI и LLM",
+      "items": [
+        "LangGraph (StateGraph, параллельные узлы, conditional edges)",
+        "LangChain",
+        "RAG (гибридный поиск: ChromaDB + BM25 + LLM re-rank)",
+        "Промптинг",
+        "API LLM (OpenAI-совместимые, Ollama)",
+        "AI-агенты"
+      ]
+    },
+    {
+      "category": "Инструменты и БД",
+      "items": ["PostgreSQL", "Kafka (aiokafka, consumer with DLQ)", "Vector (Lua transforms)", "ChromaDB", "Docker", "Git", "CI/CD (GitHub Actions)", "uv"]
+    },
+    {
+      "category": "Инфраструктура",
+      "items": ["Docker Compose (5+ сервисов)", "Векторные БД", "Потоковая обработка", "YARA", "Sigma"]
+    },
+    {
+      "category": "Иностранные языки",
+      "items": ["Английский — B1 (чтение документации, технический перевод)"]
+    }
   ],
   "skills": [
-    "LangGraph StateGraph (параллельные ветки)",
+    "AI-пайплайны: от данных до отчёта",
+    "LangGraph StateGraph (параллельные ветки, conditional edges)",
     "Гибридный RAG (ChromaDB + BM25 + re-rank)",
-    "Анти-галлюцинации: YARA + Sigma",
     "Промптинг",
-    "AI-агенты",
+    "220 задач на LeetCode (78 medium, 28 hard)",
     "CI/CD (GitHub Actions)",
-    "220 задач на LeetCode",
-    "Английский — B1"
+    "Командная разработка (Git, code review)"
   ],
   "projects": [
     {
@@ -68,7 +93,7 @@
       ],
       "tech": ["LangGraph", "Kafka", "PostgreSQL", "Docker", "FastAPI"],
       "links": [
-        { "label": "Репозиторий", "url": "https://github.com/axstiz/AI-CyberLogAgent" }
+        { "label": "Репозиторий", "url": "https://github.com/Mitoshi-Team/AI-CyberLogAgent" }
       ]
     },
     {
@@ -111,14 +136,65 @@
   ],
   "education": [
     {
-      "institution": "УрФУ, ИРИТ-РТФ",
-      "degree": "Алгоритмы искусственного интеллекта (топ-трек)",
-      "period": "2025–2029"
+      "type": "higher",
+      "institution": "УрФУ (Уральский федеральный университет имени первого Президента России Б. Н. Ельцина)",
+      "program": "Алгоритмы искусственного интеллекта (топ-трек)",
+      "institute": "ИРИТ-РТФ",
+      "period": "2025 - 2029",
+      "periodNote": "ожидаемое окончание",
+      "disciplines": ["Линейная алгебра", "Алгоритмы и структуры данных", "Веб-разработка", "Анализ данных", "Машинное обучение"]
     },
     {
+      "type": "additional",
       "institution": "Яндекс.Практикум",
-      "degree": "Backend-разработчик",
-      "period": "2025–2026"
+      "program": "Ассоциированные программы: backend-разработчик",
+      "period": "2025 - 2026",
+      "status": "завершён"
     }
-  ]
+  ],
+  "resume": {
+    "objective": "Цель: позиция AI-интерна / Junior AI-инженера с перспективой роста. Хочу влиться в продуктовую команду, работать с LLM, RAG, агентными архитектурами и решать реальные задачи — от автоматизации до построения ML-пайплайнов.",
+    "leetcode": {
+      "url": "https://leetcode.com/u/axstiz",
+      "solved": 220,
+      "medium": 78,
+      "hard": 28
+    },
+    "experience": [
+      {
+        "title": "Разработка on-premise AI-анализатора потоковых логов кибербезопасности",
+        "project": { "name": "WaveScan", "url": "https://github.com/Mitoshi-Team/AI-CyberLogAgent" },
+        "context": "проектный практикум УрФУ (реальный заказчик)",
+        "role": ["AI-инженер", "AI-архитектор", "бэкенд-разработчик"],
+        "summary": "Спроектировал и реализовал AI-ядро пайплайна потокового анализа логов. Система в реальном времени читает логи через Vector → Kafka, обрабатывает в LangGraph DAG (8 узлов, параллельные AI + детерминированные ветки), сохраняет результаты в Postgres и уведомляет веб-интерфейс.",
+        "results": [
+          "Спроектировал полную схему потоков: Vector (file source + Lua chunking 250 строк, overlap 20, flush 180s) → Kafka (topic: processed-logs-batches) → Kafka consumer (aiokafka, retry 3×, exp backoff, DLQ) → LangGraph DAG → Postgres",
+          "Разработал 8-узловой LangGraph StateGraph с параллельными ветками: AI-анализ (Agent 1 → RAG → Agent 3) и детерминированный (YARA + Sigma). Впервые в открытом доступе представил архитектуру скрещивания LLM и сигнатурных движков в одном графе",
+          "Реализовал гибридный RAG (ChromaDB + e5 multilingual embeddings + BM25 sparse search + LLM re-rank) для сопоставления событий с 88 техниками MITRE ATT&CK. Hybrid search использует веса 0.6/0.4 (vector/BM25) — это решает проблему, когда семантически похожая техника оказывается не той, что нужна",
+          "Внедрил cross-validation слой: YARA (8 правил) и Sigma (9 правил) работают независимо и всегда попадают в отчёт. Raw-анализ от Agent 1 валидируется через RAG/YARA/Sigma — неподтверждённые события уходят в блок ручной проверки (`unconfirmed_events_count`) и не завышают severity (anti-hallucination механизм)",
+          "Настроил CI/CD (Docker Hub + GitVerse), Docker Compose на 5 сервисов (Postgres, FastAPI, Kafka + Zookeeper, Vector, Vue.js frontend)",
+          "Написал 16 тестов для пайплайна: agent1, agent3, RAG eval (ground truth), YARA/Sigma, интеграционные, включая conftest.py с фикстурами"
+        ],
+        "metrics": "**Метрики (на синтетическом датасете ~850 строк, 38 техник MITRE):** precision 85.7% (30/35), recall 78.9% (30/38), F1 = 0.82. YARA/Sigma не детектировали на синтетике — архитектурно ветка корректна, нужен датасет с реальными атаками.",
+        "pipeline": "**Пайплайн в цифрах:** ~3.5 строк/сек (bottleneck: sequential LLM + cloud round-trip, не архитектурный). Для продакшена требуется локальный GPU + batch inference (vLLM/SGLang)."
+      }
+    ],
+    "competencies": [
+      "Проектирование AI-пайплайнов: от сбора данных до финального отчёта",
+      "Разработка агентных архитектур на LangGraph с параллельными ветками и условными переходами",
+      "Гибридный RAG: векторный поиск + BM25 + LLM re-rank для точного сопоставления с доменной базой знаний",
+      "Уверенный промптинг — формулировка запросов к LLM для структурированного анализа и генерации",
+      "220 задач на LeetCode (78 medium, 28 hard) — подтверждённый уровень алгоритмической подготовки",
+      "Опыт командной разработки: Git, code review, декомпозиция задач, работа с тимлидом",
+      "Проактивность: задаю уточняющие требования, предлагаю архитектурные решения, объясняю каждую строку кода",
+      "Ориентация на результат, быстрая обучаемость, готовность разбираться с новыми технологиями самостоятельно"
+    ],
+    "personalQualities": [
+      { "name": "Коммуникабельность", "text": "легко нахожу общий язык с разными людьми" },
+      { "name": "Ответственность и стрессоустойчивость", "text": "участие в спортивных соревнованиях и организация мероприятий" },
+      { "name": "Непрерывное развитие", "text": "совмещаю топ-трек УрФУ с полноценной разработкой, LeetCode, изучением ML/AI" },
+      { "name": "Принимаю вызовы", "text": "не боюсь браться за сложные задачи/проекты" },
+      { "name": "Способность быстро осваивать новые технологии и инструменты", "text": "" }
+    ]
+  }
 }
