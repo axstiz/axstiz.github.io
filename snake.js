@@ -22,7 +22,7 @@
     coilTight: 3
   };
 
-  if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
+  const IS_TOUCH = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
 
   const canvas = document.createElement("canvas");
   canvas.style.cssText =
@@ -53,14 +53,61 @@
   let coil = false;
   let coilStart = 0;
   let coilCenter = { x: 0, y: 0 };
+  let wanderX = 0;
+  let wanderY = 0;
+  let wanderAngle = 0;
+  let wanderSpeed = 2.4;
 
-  window.addEventListener("pointermove", function (e) {
-    lastMove = performance.now();
-    target = { x: e.clientX, y: e.clientY };
-    if (!head) head = { x: target.x, y: target.y };
-    coil = false;
-    if (!rafId) rafId = requestAnimationFrame(loop);
-  });
+  function initWander() {
+    const m = Math.min(cssW, cssH) * 0.5;
+    wanderX = cssW / 2 + (Math.random() - 0.5) * m;
+    wanderY = cssH / 2 + (Math.random() - 0.5) * m;
+    wanderAngle = Math.random() * Math.PI * 2;
+    head = { x: wanderX, y: wanderY };
+    target = { x: wanderX, y: wanderY };
+  }
+
+  function wander(now) {
+    wanderAngle += (Math.random() - 0.5) * 0.5;
+    wanderAngle += Math.sin(now * 0.0006) * 0.02;
+    wanderSpeed += (Math.random() - 0.5) * 0.08;
+    if (wanderSpeed < 1.3) wanderSpeed = 1.3;
+    if (wanderSpeed > 3.6) wanderSpeed = 3.6;
+
+    const margin = 80;
+    if (wanderX < margin) wanderAngle = nudge(wanderAngle, 0);
+    else if (wanderX > cssW - margin) wanderAngle = nudge(wanderAngle, Math.PI);
+    if (wanderY < margin) wanderAngle = nudge(wanderAngle, Math.PI / 2);
+    else if (wanderY > cssH - margin) wanderAngle = nudge(wanderAngle, -Math.PI / 2);
+
+    wanderX += Math.cos(wanderAngle) * wanderSpeed * (IS_TOUCH ? 1.6 : 1);
+    wanderY += Math.sin(wanderAngle) * wanderSpeed * (IS_TOUCH ? 1.6 : 1);
+
+    wanderX = Math.max(2, Math.min(cssW - 2, wanderX));
+    wanderY = Math.max(2, Math.min(cssH - 2, wanderY));
+  }
+
+  function nudge(angle, desired) {
+    let diff = desired - angle;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    return angle + diff * 0.08;
+  }
+
+  if (!IS_TOUCH) {
+    window.addEventListener("pointermove", function (e) {
+      lastMove = performance.now();
+      target = { x: e.clientX, y: e.clientY };
+      if (!head) head = { x: target.x, y: target.y };
+      coil = false;
+      if (!rafId) rafId = requestAnimationFrame(loop);
+    });
+  }
+
+  if (IS_TOUCH) {
+    initWander();
+    rafId = requestAnimationFrame(loop);
+  }
 
   // Догоняющая голова — мягкая реакция на курсор.
   function blendHead() {
@@ -205,7 +252,13 @@
     const now = performance.now();
     rafId = null;
 
-    if (target) {
+    if (IS_TOUCH) {
+      wander(now);
+      target = { x: wanderX, y: wanderY };
+      blendHead();
+      draw(now);
+      rafId = requestAnimationFrame(loop);
+    } else if (target) {
       if (coil) {
         coilTargets(now);
         draw(now);
