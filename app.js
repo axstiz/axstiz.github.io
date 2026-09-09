@@ -67,7 +67,10 @@
     (stack || []).forEach((group) => {
       const g = document.createElement("div");
       g.className = "stack-group";
-      g.appendChild(h("div", "stack-cat", group.category));
+      const showTitle = group.showTitle !== false && group.category && group.category.trim();
+      if (showTitle) {
+        g.appendChild(h("div", "stack-cat", group.category));
+      }
       g.appendChild(chips(group.items));
       root.appendChild(g);
     });

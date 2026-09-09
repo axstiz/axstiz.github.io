@@ -45,10 +45,12 @@
   "stack": [
     {
       "category": "Языки программирования",
+      "showTitle": false,
       "items": ["Python (asyncio)", "Pandas", "OOP", "Scikit-learn", "FastAPI", "Pydantic"]
     },
     {
       "category": "AI и LLM",
+      "showTitle": false,
       "items": [
         "LangGraph (StateGraph, параллельные узлы, conditional edges)",
         "LangChain",
@@ -60,14 +62,17 @@
     },
     {
       "category": "Инструменты и БД",
+      "showTitle": false,
       "items": ["PostgreSQL", "Kafka (aiokafka, consumer with DLQ)", "Vector (Lua transforms)", "ChromaDB", "Docker", "Git", "CI/CD (GitHub Actions)", "uv"]
     },
     {
       "category": "Инфраструктура",
+      "showTitle": false,
       "items": ["Docker Compose (5+ сервисов)", "Векторные БД", "Потоковая обработка", "YARA", "Sigma"]
     },
     {
       "category": "Иностранные языки",
+      "showTitle": false,
       "items": ["Английский — B1 (чтение документации, технический перевод)"]
     }
   ],
