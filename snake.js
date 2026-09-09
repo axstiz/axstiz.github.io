@@ -205,7 +205,7 @@
     const now = performance.now();
     rafId = null;
 
-    if (pts.length) {
+    if (target) {
       if (coil) {
         coilTargets(now);
         draw(now);
@@ -216,7 +216,7 @@
         coilTargets(now);
         draw(now);
       } else {
-        if (target) blendHead();
+        blendHead();
         draw(now);
       }
       rafId = requestAnimationFrame(loop);
