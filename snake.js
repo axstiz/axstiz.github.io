@@ -6,14 +6,12 @@
 
   const CONFIG = {
     color: "#ffffff",
-    vertebrae: 56,
+    vertebrae: 72,
     spacing: 10,
-    vertebraSize: 6,
-    ribLength: 15,
-    ribWidth: 1.6,
-    ribSkew: 0.32,
-    wiggle: 5,
-    wiggleFreq: 0.42,
+    vertebraSize: 8,
+    legLength: 22,
+    wiggle: 5.5,
+    wiggleFreq: 0.45,
     headEase: 0.26,
     idleMs: 900,
     coilRadius: 55,
@@ -183,7 +181,7 @@
     for (let i = 0; i < cnt; i++) {
       const s = i / (cnt - 1);
       const rad = R * Math.min(1, s * CONFIG.coilTight);
-      const ang = ang0 + s * arc;
+      const ang = ang0 - s * arc;
       const tx = cx + Math.cos(ang) * rad;
       const ty = cy + Math.sin(ang) * rad;
       const p = pts[i];
@@ -196,56 +194,84 @@
     ctx.clearRect(0, 0, cssW, cssH);
     const path = sample();
     const n = path.length;
+    if (n < 1) return;
     if (n < 2) {
-      if (n === 1) fillDot(path[0].x, path[0].y, 3, 0.9);
+      fillDot(path[0].x, path[0].y, 3, 0.9);
       return;
     }
 
-    ctx.globalAlpha = 0.4;
-    ctx.strokeStyle = CONFIG.color;
-    ctx.lineWidth = 1;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo(path[0].x, path[0].y);
-    for (let i = 1; i < n; i++) ctx.lineTo(path[i].x, path[i].y);
-    ctx.stroke();
+    const LW = 1.6;
 
     for (let i = 0; i < n; i++) {
       const t = i / (n - 1);
-      const fade = Math.pow(1 - t, 1.4);
-      if (fade < 0.02) continue;
+      const fade = Math.pow(1 - t, 1.2);
+      if (fade < 0.03) continue;
 
       const a = path[Math.max(0, i - 1)];
       const b = path[Math.min(n - 1, i + 1)];
       const ang = Math.atan2(b.y - a.y, b.x - a.x);
-
-      const wob = Math.sin(now * 0.003 + i * CONFIG.wiggleFreq) *
-        (CONFIG.wiggle * Math.max(0.12, 1 - t * 0.6));
+      const fwdX = Math.cos(ang);
+      const fwdY = Math.sin(ang);
       const nx = Math.cos(ang + Math.PI / 2);
       const ny = Math.sin(ang + Math.PI / 2);
-      const px = path[i].x + nx * wob;
-      const py = path[i].y + ny * wob;
 
-      const r = CONFIG.vertebraSize * (1 - t * 0.6);
-      const skew = CONFIG.ribSkew * (i % 2 ? 1 : -1);
-      const rl = CONFIG.ribLength * (1 - t * 0.5);
+      const wob = Math.sin(now * 0.0032 + i * CONFIG.wiggleFreq) *
+        (CONFIG.wiggle * Math.max(0.1, 1 - t * 0.55));
+      const cx = path[i].x + nx * wob;
+      const cy = path[i].y + ny * wob;
 
-      const a1 = ang + Math.PI / 2 + skew;
-      const a2 = ang - Math.PI / 2 - skew;
-      const rx1 = px + Math.cos(a1) * rl;
-      const ry1 = py + Math.sin(a1) * rl;
-      const rx2 = px + Math.cos(a2) * rl;
-      const ry2 = py + Math.sin(a2) * rl;
+      const tailF = Math.max(0.25, 1 - t * 0.6);
+      const r = CONFIG.vertebraSize * tailF;
+      const legL = CONFIG.legLength * tailF;
 
-      line(px, py, rx1, ry1, CONFIG.ribWidth * (1 - t * 0.35), fade * 0.5);
-      line(px, py, rx2, ry2, CONFIG.ribWidth * (1 - t * 0.35), fade * 0.5);
-      fillDot(rx1, ry1, 1.1, fade * 0.45);
-      fillDot(rx2, ry2, 1.1, fade * 0.45);
+      // ноги сколопендры: по 2 пары на сегмент, откинуты к хвосту, с коленным изломом
+      for (let side = -1; side <= 1; side += 2) {
+        const ox = nx * side;
+        const oy = ny * side;
+        for (let k = 0; k < 2; k++) {
+          const back = k === 0 ? 0.5 : 2.8;
+          const hipX = cx + ox * r * 0.85 + fwdX * back;
+          const hipY = cy + oy * r * 0.85 + fwdY * back;
+          const l1 = legL * (k === 0 ? 1 : 0.8);
+          const kx = hipX + ox * l1 - fwdX * l1 * 0.35;
+          const ky = hipY + oy * l1 - fwdY * l1 * 0.35;
+          const l2 = l1 * 0.6;
+          const tx = kx + ox * l2 * 0.35 - fwdX * l2 * 0.85;
+          const ty = ky + oy * l2 * 0.35 - fwdY * l2 * 0.85;
+          line(hipX, hipY, kx, ky, LW * 0.8, fade * 0.7);
+          line(kx, ky, tx, ty, LW * 0.65, fade * 0.6);
+        }
+      }
 
-      fillDot(px, py, r, fade * 0.98);
+      // позвонок — костное кольцо с суставом
+      ctx.globalAlpha = fade * 0.85;
+      ctx.strokeStyle = CONFIG.color;
+      ctx.lineWidth = LW * 1.1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, 6.2832);
+      ctx.stroke();
+      fillDot(cx, cy, r * 0.4, fade * 0.9);
     }
 
-    fillDot(path[0].x, path[0].y, CONFIG.vertebraSize * 1.3, 0.9);
+    // голова: череп с усиками
+    const h = path[0];
+    const ha = Math.atan2(path[1].y - h.y, path[1].x - h.x);
+    const hr = CONFIG.vertebraSize * 1.55;
+    ctx.globalAlpha = 0.95;
+    ctx.strokeStyle = CONFIG.color;
+    ctx.lineWidth = LW * 1.25;
+    ctx.beginPath();
+    ctx.arc(h.x, h.y, hr, 0, 6.2832);
+    ctx.stroke();
+    fillDot(h.x, h.y, hr * 0.55, 1);
+    for (let s = -1; s <= 1; s += 2) {
+      const e1x = h.x + Math.cos(ha + s * 0.7) * (hr + 5);
+      const e1y = h.y + Math.sin(ha + s * 0.7) * (hr + 5);
+      const e2x = e1x + Math.cos(ha + s * 1.05) * (hr + 6);
+      const e2y = e1y + Math.sin(ha + s * 1.05) * (hr + 6);
+      line(h.x, h.y, e1x, e1y, LW * 0.55, 0.75);
+      line(e1x, e1y, e2x, e2y, LW * 0.5, 0.6);
+    }
   }
 
   function loop() {
