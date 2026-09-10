@@ -11,11 +11,11 @@
     vertebraSize: 8,
     legLength: 22,
     wiggle: 5.5,
-    wiggleFreq: 0.45,
-    headEase: 0.26,
+    wiggleFreq: 0.19,
+    headEase: 0.09,
     idleMs: 900,
     coilRadius: 55,
-    coilSpeed: 0.0014,
+    coilSpeed: 0.0006,
     coilMorph: 0.09,
     coilTight: 3
   };
@@ -66,11 +66,11 @@
   }
 
   function wander(now) {
-    wanderAngle += (Math.random() - 0.5) * 0.5;
+    wanderAngle += (Math.random() - 0.5) * 0.23;
     wanderAngle += Math.sin(now * 0.0006) * 0.02;
     wanderSpeed += (Math.random() - 0.5) * 0.08;
-    if (wanderSpeed < 1.3) wanderSpeed = 1.3;
-    if (wanderSpeed > 3.6) wanderSpeed = 3.6;
+    if (wanderSpeed < 0.6) wanderSpeed = 0.6;
+    if (wanderSpeed > 1.6) wanderSpeed = 1.6;
 
     const margin = 80;
     if (wanderX < margin) wanderAngle = nudge(wanderAngle, 0);
@@ -113,7 +113,7 @@
     head.x += (target.x - head.x) * k;
     head.y += (target.y - head.y) * k;
     const p = pts.length ? pts[0] : null;
-    if (!p || Math.hypot(head.x - p.x, head.y - p.y) > 1.5) {
+    if (!p || Math.hypot(head.x - p.x, head.y - p.y) > 1) {
       pts.unshift({ x: head.x, y: head.y });
       if (pts.length > MAX_PTS) pts.length = MAX_PTS;
     }
