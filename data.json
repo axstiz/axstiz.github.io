@@ -103,15 +103,15 @@
   "projects": [
     {
       "title": "WaveScan",
-      "badge": "Флагман",
+      "badge": "Main",
       "description": "On-premise AI-анализатор потоковых логов кибербезопасности. Vector → Kafka → LangGraph DAG → Postgres, LLM-анализ совмещён с сигнатурными движками YARA/Sigma.",
       "highlights": [
         "8-узловой LangGraph StateGraph с параллельными ветками",
-        "Гибридный RAG для 88 техник MITRE ATT&CK",
-        "Кросс-валидация YARA (8) + Sigma (9), F1 = 0.82",
-        "CI/CD · Docker Compose (5 сервисов) · 16 тестов"
+        "Гибридный RAG для 88 техник MITRE ATT&CK, F1 = 0.82",
+        "Кастомные YARA и Sigma движки",
+        "CI/CD · Docker Compose · 16 тестов"
       ],
-      "tech": ["LangGraph", "Kafka", "PostgreSQL", "Docker", "FastAPI"],
+      "tech": ["LangGraph", "RAG", "Kafka", "PostgreSQL", "Docker", "FastAPI"],
       "links": [
         { "label": "Репозиторий", "url": "https://github.com/Mitoshi-Team/AI-CyberLogAgent" }
       ]
@@ -124,34 +124,18 @@
         "YARA + Sigma cross-validation всегда в отчёте",
         "Не подтверждённые события уходят в ручную проверку"
       ],
-      "tech": ["Python", "LangGraph", "Vector", "aiokafka"],
+      "tech": [
+        "Python",
+        "LangGraph",
+        "Vector",
+        "aiokafka"
+      ],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/axstiz/AI-CyberLogAgent" }
+        {
+          "label": "GitHub",
+          "url": "https://github.com/axstiz/AI-CyberLogAgent"
+        }
       ]
-    },
-    {
-      "title": "Telegram RAG-ассистент",
-      "badge": "Демо",
-      "description": "Демо-бот: гибридный поиск (ChromaDB + BM25) по базе знаний, LLM re-rank и ответы со ссылками на источники.",
-      "highlights": [
-        "ChromaDB + e5 multilingual embeddings",
-        "BM25 sparse search + LLM re-rank",
-        "Ответы с источниками"
-      ],
-      "tech": ["Python", "LangChain", "ChromaDB", "Ollama"],
-      "links": []
-    },
-    {
-      "title": "FastAPI-микросервис шаблон",
-      "badge": "Демо",
-      "description": "Каркас backend-сервиса: Pydantic-схемы, PostgreSQL, Docker Compose, автотесты и CI.",
-      "highlights": [
-        "Pydantic v2 валидация",
-        "Docker Compose",
-        "Автотесты + CI"
-      ],
-      "tech": ["FastAPI", "PostgreSQL", "Docker"],
-      "links": []
     }
   ],
   "education": [
