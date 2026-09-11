@@ -45,18 +45,19 @@
   "stack": [
     {
       "category": "Языки программирования",
-      "showTitle": false,
+      "showTitle": "Языки программирования",
       "items": [
-        "Python (asyncio, Pandas, OOP, Scikit-learn, FastAPI, Pydantic)",
+        "Python (asyncio, Pandas, OOP, FastAPI, Pydantic)",
         "Java..."
       ]
     },
     {
       "category": "AI и LLM",
-      "showTitle": false,
+      "showTitle": "AI / LLM / ML",
       "items": [
         "LangGraph",
         "LangChain",
+        "Scikit-learn",
         "RAG (+гибридный поиск: ChromaDB + BM25 + LLM re-rank)",
         "Промпт-инжиниринг",
         "API LLM",
@@ -65,7 +66,7 @@
     },
     {
       "category": "Инструменты и БД",
-      "showTitle": false,
+      "showTitle": "Инструменты и БД",
       "items": [
         "PostgreSQL",
         "Векторные БД (ChromaDB)",
@@ -78,7 +79,7 @@
     },
     {
       "category": "Инфраструктура",
-      "showTitle": false,
+      "showTitle": "Инфраструктура",
       "items": [
         "Docker Compose",
         "CI/CD",
@@ -87,15 +88,16 @@
     },
     {
       "category": "Иностранные языки",
-      "showTitle": false,
+      "showTitle": "Иностранные языки",
       "items": ["Английский — B1 (чтение документации, технический перевод)"]
     }
   ],
   "skills": [
     "AI-пайплайны: от данных до отчёта",
-    "LangGraph StateGraph (параллельные ветки, conditional edges)",
+    "Агентные архитектуры",
+    "LangGraph (параллельные ветки, conditional edges)",
     "Гибридный RAG (ChromaDB + BM25 + re-rank)",
-    "Промптинг",
+    "Промпт-инжиниринг",
     "220 задач на LeetCode (78 medium, 28 hard)",
     "CI/CD (GitHub Actions)",
     "Командная разработка (Git, code review)"
