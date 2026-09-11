@@ -104,6 +104,24 @@
         card.appendChild(ul);
       }
 
+      if (p.screenshots && p.screenshots.length) {
+        const shots = document.createElement("div");
+        shots.className = "project-shots";
+        p.screenshots.forEach((src) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "shot";
+          const img = document.createElement("img");
+          img.src = src;
+          img.alt = `${p.title} — скриншот`;
+          img.loading = "lazy";
+          btn.appendChild(img);
+          btn.addEventListener("click", () => openLightbox(img.src, p.title));
+          shots.appendChild(btn);
+        });
+        card.appendChild(shots);
+      }
+
       const foot = document.createElement("div");
       foot.className = "project-foot";
       foot.appendChild(chips(p.tech));
@@ -212,6 +230,35 @@
       }
       root.appendChild(row);
     });
+  }
+
+  let lightbox = null;
+  function ensureLightbox() {
+    if (lightbox) return lightbox;
+    lightbox = document.createElement("div");
+    lightbox.id = "lightbox";
+    lightbox.appendChild(h("img", null));
+    lightbox.appendChild(h("div", null));
+    lightbox.addEventListener("click", closeLightbox);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+    document.body.appendChild(lightbox);
+    return lightbox;
+  }
+
+  function closeLightbox() {
+    if (lightbox) lightbox.classList.remove("open");
+  }
+
+  function openLightbox(src, title) {
+    const lb = ensureLightbox();
+    const img = lb.querySelector("img");
+    img.src = src;
+    img.alt = title || "";
+    const cap = lb.lastChild;
+    cap.textContent = title || "";
+    lb.classList.add("open");
   }
 
   async function init() {
