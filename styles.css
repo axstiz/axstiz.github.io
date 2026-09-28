@@ -648,7 +648,7 @@ body > canvas { z-index: 1 !important; }
 /* ---- Вне кода: альбом и сборник стихов ---- */
 .offcode-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
   gap: 18px;
 }
 .offcode-card {
@@ -704,7 +704,7 @@ body > canvas { z-index: 1 !important; }
 /* ---- контакты ---- */
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
   gap: 12px;
 }
 .contact-row {
