@@ -109,7 +109,7 @@
     "text": "Сборник стихов с параллельными сюжетными ветками. 2я часть истории (продолжение e-mirror)",
     "url": "https://axstiz.github.io/Q_polar",
     "linkLabel": "Читать +слушать Q-polar",
-    "image": "pictures/q-polar.png",
+    "image": "pictures/Q-polar.png",
     "imageAlt": "Обложка сборника Q-polar"
   },
   "album": {
@@ -123,15 +123,18 @@
   },
   "stackChips": [
     "Python",
+    "Django",
     "FastAPI",
+    "Pydantic",
     "LangGraph",
     "RAG",
     "ChromaDB",
+    "NumPy",
+    "Pandas",
+    "scikit-learn",
     "PostgreSQL",
     "Kafka",
     "Docker",
-    "Pydantic",
-    "scikit-learn",
     "Git",
     "CI/CD"
   ],
@@ -152,11 +155,16 @@
   },
   "stack": [
     {
-      "category": "Языки программирования",
-      "showTitle": "Языки программирования",
+      "category": "Языки и фреймворки",
+      "showTitle": "Языки и фреймворки",
       "items": [
-        "Python (asyncio, Pandas, OOP, FastAPI, Pydantic)",
-        "Java..."
+        "Python (asyncio, OOP)",
+        "Java...",
+        "Django",
+        "FastAPI",
+        "Pydantic",
+        "NumPy",
+        "Pandas"
       ]
     },
     {
@@ -166,10 +174,10 @@
         "LangGraph",
         "LangChain",
         "Scikit-learn",
+        "AI-агенты",
         "RAG (+гибридный поиск: ChromaDB + BM25 + LLM re-rank)",
         "Промпт-инжиниринг",
-        "API LLM",
-        "AI-агенты"
+        "API LLM"
       ]
     },
     {
@@ -178,9 +186,9 @@
       "items": [
         "PostgreSQL",
         "Векторные БД (ChromaDB)",
-        "Docker",
-        "Git",
         "uv",
+        "Git",
+        "Docker",
         "YARA",
         "Sigma"
       ]
@@ -192,7 +200,7 @@
         "Docker Compose",
         "CI/CD",
         "Потоковая обработка: Kafka (aiokafka, consumer with DLQ) + Vector (Lua transforms)"
-        ]
+      ]
     },
     {
       "category": "Иностранные языки",
