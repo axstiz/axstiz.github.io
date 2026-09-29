@@ -34,7 +34,12 @@
   const ctx = canvas.getContext("2d");
 
   const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  const MAX_PTS = CONFIG.vertebrae * CONFIG.spacing * 3;
+  /* Округление обязательно: CONFIG.spacing — дробное число, и без него
+     MAX_PTS выходит нецелым. Присваивание нецелого в pts.length бросает
+     RangeError прямо внутри цикла, requestAnimationFrame после этого не
+     планируется, змейка замирает намертво, а следующий resize с
+     присваиванием canvas.width очищает картинку — сколопендра исчезает. */
+  const MAX_PTS = Math.round(CONFIG.vertebrae * CONFIG.spacing * 3);
   let cssW = 0;
   let cssH = 0;
 
