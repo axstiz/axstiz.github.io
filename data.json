@@ -104,13 +104,13 @@
     }
   ],
   "poetry": {
-    "title": "Q_polar",
+    "title": "Q-polar",
     "kicker": "@axstiz + @icore",
     "text": "Сборник стихов с параллельными сюжетными ветками. 2я часть истории (продолжение e-mirror)",
     "url": "https://axstiz.github.io/Q_polar",
-    "linkLabel": "Читать (+слушать) Q_polar",
+    "linkLabel": "Читать +слушать Q-polar",
     "image": "pictures/q-polar.png",
-    "imageAlt": "Обложка сборника Q_polar"
+    "imageAlt": "Обложка сборника Q-polar"
   },
   "album": {
     "title": "e-mirror",
