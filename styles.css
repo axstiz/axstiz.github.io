@@ -322,18 +322,18 @@ body > canvas { z-index: 1 !important; }
   text-orientation: mixed;
   /* В vertical-rl ширину слова задаёт line-height (толщина полосы),
      а font-size — только длину. Оба нужны, чтобы буквы были широкими. */
-  font-size: 1.12rem;
-  line-height: 1.75;
-  padding-bottom: 20px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  padding-bottom: 14px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.34);
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.22);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
-.ticker-track span.w1 { color: rgba(177, 140, 255, 0.62); text-shadow: 0 0 14px rgba(177, 140, 255, 0.45); }
-.ticker-track span.w2 { color: rgba(74, 222, 128, 0.5); text-shadow: 0 0 14px rgba(74, 222, 128, 0.35); }
+.ticker-track span.w1 { color: rgba(177, 140, 255, 0.42); text-shadow: 0 0 12px rgba(177, 140, 255, 0.28); }
+.ticker-track span.w2 { color: rgba(74, 222, 128, 0.34); text-shadow: 0 0 12px rgba(74, 222, 128, 0.22); }
 @keyframes ticker-up {
   from { transform: translateY(0); }
   to { transform: translateY(-50%); }
@@ -781,7 +781,7 @@ body > canvas { z-index: 1 !important; }
 @media (max-width: 900px) {
   .focus-grid { grid-template-columns: 1fr; }
   .ticker { width: 52px; gap: 4px; padding: 0 3px; }
-  .ticker-track span { font-size: 0.78rem; line-height: 1.45; }
+  .ticker-track span { font-size: 0.6rem; line-height: 1.2; }
   /* Контент сдвигается за рейку, иначе карточки наезжают на неё. */
   .layout { padding-left: 60px; }
 }
@@ -791,12 +791,14 @@ body > canvas { z-index: 1 !important; }
      у́же, а контент сдвигается вправо через padding-left — блоки стоят
      рядом с лентой, а не под ней. */
   .ticker { width: 44px; gap: 3px; padding: 0 2px; }
-  .ticker-track span { font-size: 0.66rem; line-height: 1.4; }
+  .ticker-track span { font-size: 0.5rem; line-height: 1.2; }
   .layout { padding-left: 56px; }
   /* Сколопендра на телефоне еле читается: тонкие белые линии рисуются
      на 390px экране почти без запаса яркости. Поднимаем яркость —
-     filter дешёвый, в отличие от drop-shadow, который съедал ~12% FPS. */
-  body > canvas { filter: brightness(2.4); }
+     filter дешёвый, в отличие от drop-shadow, который съедал ~12% FPS.
+     Прозрачность оставляет её фоновым элементом: с brightness(2.4) итог
+     по светлоте совпадает с десктопом, но сквозь линию видно контент. */
+  body > canvas { filter: brightness(2.4); opacity: 0.5; }
   .hero { min-height: auto; padding: 20px 0; }
   .hero-avatar { width: 116px; height: 116px; }
   .hero-actions .btn { flex: 1 1 100%; justify-content: center; }

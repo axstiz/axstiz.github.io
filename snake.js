@@ -7,14 +7,14 @@
   const CONFIG = {
     color: "#ffffff",
     vertebrae: 72,
-    spacing: 10,
-    vertebraSize: 8,
-    legLength: 22,
-    wiggle: 5.5,
+    spacing: 8.33,
+    vertebraSize: 6.67,
+    legLength: 18.33,
+    wiggle: 4.58,
     wiggleFreq: 0.19,
     headEase: 0.09,
     idleMs: 900,
-    coilRadius: 55,
+    coilRadius: 45.83,
     coilSpeed: 0.0006,
     coilMorph: 0.09,
     coilTight: 3
@@ -196,11 +196,11 @@
     const n = path.length;
     if (n < 1) return;
     if (n < 2) {
-      fillDot(path[0].x, path[0].y, 3, 0.9);
+      fillDot(path[0].x, path[0].y, 2.5, 0.9);
       return;
     }
 
-    const LW = 1.6;
+    const LW = 1.33;
 
     for (let i = 0; i < n; i++) {
       const t = i / (n - 1);
@@ -265,10 +265,10 @@
     ctx.stroke();
     fillDot(h.x, h.y, hr * 0.55, 1);
     for (let s = -1; s <= 1; s += 2) {
-      const e1x = h.x + Math.cos(ha + s * 0.7) * (hr + 5);
-      const e1y = h.y + Math.sin(ha + s * 0.7) * (hr + 5);
-      const e2x = e1x + Math.cos(ha + s * 1.05) * (hr + 6);
-      const e2y = e1y + Math.sin(ha + s * 1.05) * (hr + 6);
+      const e1x = h.x + Math.cos(ha + s * 0.7) * (hr + 4.2);
+      const e1y = h.y + Math.sin(ha + s * 0.7) * (hr + 4.2);
+      const e2x = e1x + Math.cos(ha + s * 1.05) * (hr + 5);
+      const e2y = e1y + Math.sin(ha + s * 1.05) * (hr + 5);
       line(h.x, h.y, e1x, e1y, LW * 0.55, 0.75);
       line(e1x, e1y, e2x, e2y, LW * 0.5, 0.6);
     }
