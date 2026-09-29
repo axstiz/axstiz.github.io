@@ -329,10 +329,11 @@ body > canvas { z-index: 1 !important; }
   letter-spacing: 0.06em;
   text-transform: uppercase;
   white-space: nowrap;
-  color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.34);
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
 }
-.ticker-track span.w1 { color: rgba(177, 140, 255, 0.26); }
-.ticker-track span.w2 { color: rgba(74, 222, 128, 0.22); }
+.ticker-track span.w1 { color: rgba(177, 140, 255, 0.62); text-shadow: 0 0 14px rgba(177, 140, 255, 0.45); }
+.ticker-track span.w2 { color: rgba(74, 222, 128, 0.5); text-shadow: 0 0 14px rgba(74, 222, 128, 0.35); }
 @keyframes ticker-up {
   from { transform: translateY(0); }
   to { transform: translateY(-50%); }
