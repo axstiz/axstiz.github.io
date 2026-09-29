@@ -17,7 +17,12 @@
     coilRadius: 45.83,
     coilSpeed: 0.0006,
     coilMorph: 0.09,
-    coilTight: 3
+    coilTight: 3,
+    /* Страховка следа: порог в 1px не проходится, когда wanderSpeed
+       стоит на нижнем клампе (0.6 × 1.6 = 0.96 px/кадр) и след
+       подтормаживает на секунды. Точка пишется по движению головы, но
+       не реже, чем раз в pointMaxMs. */
+    pointMaxMs: 50
   };
 
   const IS_TOUCH = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
@@ -55,6 +60,7 @@
   let wanderY = 0;
   let wanderAngle = 0;
   let wanderSpeed = 2.4;
+  let lastPointAt = 0;
 
   function initWander() {
     const m = Math.min(cssW, cssH) * 0.5;
@@ -72,24 +78,21 @@
     if (wanderSpeed < 0.6) wanderSpeed = 0.6;
     if (wanderSpeed > 1.6) wanderSpeed = 1.6;
 
-    const margin = 80;
-    if (wanderX < margin) wanderAngle = nudge(wanderAngle, 0);
-    else if (wanderX > cssW - margin) wanderAngle = nudge(wanderAngle, Math.PI);
-    if (wanderY < margin) wanderAngle = nudge(wanderAngle, Math.PI / 2);
-    else if (wanderY > cssH - margin) wanderAngle = nudge(wanderAngle, -Math.PI / 2);
+    /* Отражение от краёв, а не поворот к «правильному» курсу. Две
+       поправки подряд гасили друг друга: у нижнего левого угла угол
+       тянули вправо и вверх, он уравновешивался, и сколопендра намертво
+       зажималась в углу под нижней кромкой экрана. Отражения трогают
+       разные оси и не мешают друг другу, поэтому в углу разворачивают
+       строго наружу. */
+    const margin = Math.min(80, Math.min(cssW, cssH) * 0.18);
+    if (wanderX < margin || wanderX > cssW - margin) wanderAngle = Math.PI - wanderAngle;
+    if (wanderY < margin || wanderY > cssH - margin) wanderAngle = -wanderAngle;
 
     wanderX += Math.cos(wanderAngle) * wanderSpeed * (IS_TOUCH ? 1.6 : 1);
     wanderY += Math.sin(wanderAngle) * wanderSpeed * (IS_TOUCH ? 1.6 : 1);
 
     wanderX = Math.max(2, Math.min(cssW - 2, wanderX));
     wanderY = Math.max(2, Math.min(cssH - 2, wanderY));
-  }
-
-  function nudge(angle, desired) {
-    let diff = desired - angle;
-    while (diff > Math.PI) diff -= Math.PI * 2;
-    while (diff < -Math.PI) diff += Math.PI * 2;
-    return angle + diff * 0.08;
   }
 
   if (!IS_TOUCH) {
@@ -108,14 +111,16 @@
   }
 
   // Догоняющая голова — мягкая реакция на курсор.
-  function blendHead() {
+  function blendHead(now) {
     const k = CONFIG.headEase;
     head.x += (target.x - head.x) * k;
     head.y += (target.y - head.y) * k;
     const p = pts.length ? pts[0] : null;
-    if (!p || Math.hypot(head.x - p.x, head.y - p.y) > 1) {
+    const moved = !p || Math.hypot(head.x - p.x, head.y - p.y) > 1;
+    if (moved || now - lastPointAt > CONFIG.pointMaxMs) {
       pts.unshift({ x: head.x, y: head.y });
       if (pts.length > MAX_PTS) pts.length = MAX_PTS;
+      lastPointAt = now;
     }
   }
 
@@ -281,7 +286,7 @@
     if (IS_TOUCH) {
       wander(now);
       target = { x: wanderX, y: wanderY };
-      blendHead();
+      blendHead(now);
       draw(now);
       rafId = requestAnimationFrame(loop);
     } else if (target) {
@@ -295,7 +300,7 @@
         coilTargets(now);
         draw(now);
       } else {
-        blendHead();
+        blendHead(now);
         draw(now);
       }
       rafId = requestAnimationFrame(loop);
